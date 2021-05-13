@@ -3,14 +3,45 @@ package com.sda.alexivan.hibernate.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name="project")
+@Table(name = "project")
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="projectId")
+    @Column(name = "projectId")
     private Integer projectId;
-    @Column(name="name")
+    @Column(name = "name")
     private String name;
+    @Transient
+    private double budget;
+    @Transient
+    private String currency;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    private ProjectType projectType;
+
+    public ProjectType getProjectType() {
+        return projectType;
+    }
+
+    public void setProjectType(ProjectType projectType) {
+        this.projectType = projectType;
+    }
+
+    public double getBudget() {
+        return budget;
+    }
+
+    public void setBudget(double budget) {
+        this.budget = budget;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
 
     public Integer getProjectId() {
         return projectId;
@@ -28,4 +59,11 @@ public class Project {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "Project{" +
+                "projectId=" + projectId +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
