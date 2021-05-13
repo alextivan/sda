@@ -6,6 +6,11 @@ import com.sda.alexivan.hibernate.model.Employee;
 import com.sda.alexivan.hibernate.utils.SessionManager;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+import org.hibernate.query.spi.QueryParameterBindingTypeResolver;
+
+import java.util.List;
+
 public class EmployeeRepository {
     public Employee findById(Integer id)
     {
@@ -34,12 +39,21 @@ public class EmployeeRepository {
         session.close();
     }
 
-
     public void update(Employee employee){
         Session session = SessionManager.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         session.update(employee);
         transaction.commit();
         session.close();
+    }
+
+    public List<Employee> findAlEmployeesFromDepartment(String department){
+        Session session = SessionManager.getSessionFactory().openSession();
+        String hqlquery = "from Employee e  where e.department.name = :departmentName ";
+        Query<Employee> employeeQuery = session.createQuery(hqlquery);
+        employeeQuery.setParameter("departmentName",department);
+        List<Employee>employees = employeeQuery.list();
+        session.close();
+        return employees;
     }
 }
