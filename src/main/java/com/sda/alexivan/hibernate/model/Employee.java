@@ -1,14 +1,17 @@
 package com.sda.alexivan.hibernate.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
-@Table(name="employees")
+@Table(name = "employees")
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="employeeId")
+    @Column(name = "employeeId")
     private Integer employeeId;
-    @Column(name="firstName")
+    @Column(name = "firstName")
     private String firstName;
     @Column(name = "lastName")
     private String lastName;
@@ -26,6 +29,12 @@ public class Employee {
     @ManyToOne
     @JoinColumn(name = "departmentId")
     private Department department;
+    @ManyToMany
+    @JoinTable(name = "employees_project",
+    joinColumns = {@JoinColumn(name = "employeeId")},
+    inverseJoinColumns = {@JoinColumn(name = "projectId")})
+    private Set<Project> projects = new HashSet<>();
+
 
     public Integer getEmployeeId() {
         return employeeId;
@@ -89,6 +98,14 @@ public class Employee {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
     }
 
     @Override

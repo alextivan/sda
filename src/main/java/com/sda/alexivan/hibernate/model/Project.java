@@ -1,6 +1,8 @@
 package com.sda.alexivan.hibernate.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "project")
@@ -9,6 +11,10 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "projectId")
     private Integer projectId;
+
+    @ManyToMany(mappedBy = "projects")
+    private Set<Employee> employees = new HashSet<>();
+
     @Column(name = "name")
     private String name;
     @Transient
